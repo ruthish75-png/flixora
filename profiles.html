@@ -1,0 +1,493 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profiles - Flixora</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="topbar">
+        <h1 class="logo">FLIXORA</h1>
+        <nav class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="profiles.html" class="active">Profiles</a>
+            <a href="settings.html">Settings</a>
+            <a href="support.html">Support</a>
+            <a href="login.html" id="logoutLink">Logout</a>
+        </nav>
+    </header>
+
+    <main class="panel-shell">
+        <section class="panel-hero">
+            <div>
+                <h2>Profile Hub</h2>
+                <p class="notice">Create and manage personal viewing profiles for family members on any device size.</p>
+            </div>
+            <div class="chip-group">
+                <span class="chip">Multi Profile</span>
+                <span class="chip">Kids Safety</span>
+                <span class="chip">Subtitle Control</span>
+                <span class="chip">Autoplay Options</span>
+            </div>
+        </section>
+
+        <section class="panel-kpis">
+            <article class="kpi-card">
+                <p class="kpi-label">Account</p>
+                <h3 class="kpi-value" id="activeUser">-</h3>
+            </article>
+            <article class="kpi-card">
+                <p class="kpi-label">Total Profiles</p>
+                <h3 class="kpi-value" id="profileCount">0</h3>
+            </article>
+            <article class="kpi-card">
+                <p class="kpi-label">Kids Profiles</p>
+                <h3 class="kpi-value" id="kidsCount">0</h3>
+            </article>
+            <article class="kpi-card">
+                <p class="kpi-label">Last Profile Switch</p>
+                <h3 class="kpi-value" id="lastSwitch">-</h3>
+            </article>
+        </section>
+
+        <div class="panel-grid">
+            <section class="section-card">
+                <h3>Account Owner</h3>
+                <section id="accountCard" class="profile-card"></section>
+
+                <div class="section-divider"></div>
+
+                <h3>Your Profiles</h3>
+                <p class="notice">Select a profile to start watching. Preferences are saved per profile.</p>
+                <section id="profilesWrap" class="profile-cards profile-cards-wide" style="margin-top:0.7rem;"></section>
+            </section>
+
+            <section class="section-card">
+                <h3>Create New Profile</h3>
+                <div class="settings-grid">
+                    <input type="text" id="newProfileName" placeholder="Profile name">
+                    <input type="date" id="newProfileDob">
+                    <select id="newProfileLanguage">
+                        <option value="English">English</option>
+                        <option value="Hindi">Hindi</option>
+                        <option value="Tamil">Tamil</option>
+                        <option value="Telugu">Telugu</option>
+                        <option value="Spanish">Spanish</option>
+                        <option value="Korean">Korean</option>
+                        <option value="Japanese">Japanese</option>
+                        <option value="French">French</option>
+                        <option value="German">German</option>
+                    </select>
+                    <select id="newProfileMaturity">
+                        <option value="Kids">Kids</option>
+                        <option value="Teen" selected>Teen</option>
+                        <option value="Adult">Adult</option>
+                    </select>
+                    <select id="newProfileSubtitleLanguage">
+                        <option value="English">Subtitle: English</option>
+                        <option value="Hindi">Subtitle: Hindi</option>
+                        <option value="Tamil">Subtitle: Tamil</option>
+                        <option value="Telugu">Subtitle: Telugu</option>
+                    </select>
+                    <input type="file" id="newProfilePhoto" accept="image/*">
+                </div>
+
+                <div class="field-row" style="margin-top:0.7rem;">
+                    <div>
+                        <h4>Autoplay next episode</h4>
+                        <p>Continue episodes automatically after countdown.</p>
+                    </div>
+                    <label class="switch"><input type="checkbox" id="newProfileAutoplay" checked>On</label>
+                </div>
+
+                <div class="field-row" style="margin-top:0.7rem;">
+                    <div>
+                        <h4>Show subtitles by default</h4>
+                        <p>Apply subtitles for this profile at playback start.</p>
+                    </div>
+                    <label class="switch"><input type="checkbox" id="newProfileSubtitles">On</label>
+                </div>
+
+                <div class="action-row">
+                    <button id="addProfileBtn" type="button">Add Profile</button>
+                </div>
+                <p id="addProfileMsg" class="field-msg"></p>
+
+                <div class="section-divider"></div>
+
+                <h3>Edit Existing Profile</h3>
+                <select id="editProfileSelect" class="full-width"></select>
+                <div class="settings-grid" style="margin-top:0.7rem;">
+                    <input type="text" id="editProfileName" placeholder="Profile name">
+                    <input type="date" id="editProfileDob">
+                    <select id="editProfileLanguage">
+                        <option value="English">English</option>
+                        <option value="Hindi">Hindi</option>
+                        <option value="Tamil">Tamil</option>
+                        <option value="Telugu">Telugu</option>
+                        <option value="Spanish">Spanish</option>
+                        <option value="Korean">Korean</option>
+                        <option value="Japanese">Japanese</option>
+                        <option value="French">French</option>
+                        <option value="German">German</option>
+                    </select>
+                    <select id="editProfileMaturity">
+                        <option value="Kids">Kids</option>
+                        <option value="Teen">Teen</option>
+                        <option value="Adult">Adult</option>
+                    </select>
+                    <select id="editProfileSubtitleLanguage">
+                        <option value="English">Subtitle: English</option>
+                        <option value="Hindi">Subtitle: Hindi</option>
+                        <option value="Tamil">Subtitle: Tamil</option>
+                        <option value="Telugu">Subtitle: Telugu</option>
+                    </select>
+                    <input type="file" id="editProfilePhoto" accept="image/*">
+                </div>
+
+                <div class="field-row" style="margin-top:0.7rem;">
+                    <div>
+                        <h4>Autoplay next episode</h4>
+                        <p>Turn on or off for selected profile.</p>
+                    </div>
+                    <label class="switch"><input type="checkbox" id="editProfileAutoplay">On</label>
+                </div>
+
+                <div class="field-row" style="margin-top:0.7rem;">
+                    <div>
+                        <h4>Show subtitles by default</h4>
+                        <p>Subtitle visibility for selected profile.</p>
+                    </div>
+                    <label class="switch"><input type="checkbox" id="editProfileSubtitles">On</label>
+                </div>
+
+                <div class="action-row">
+                    <button id="updateProfileBtn" type="button">Update Profile</button>
+                    <button id="deleteProfileBtn" class="danger-btn" type="button">Delete Profile</button>
+                </div>
+                <p id="editProfileMsg" class="field-msg"></p>
+            </section>
+        </div>
+    </main>
+
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="firebase-store.js"></script>
+    <script>
+        const userEmail = localStorage.getItem("flixoraUser");
+        if (!userEmail) window.location.href = "login.html";
+
+        const profilesWrap = document.getElementById("profilesWrap");
+        const accountCard = document.getElementById("accountCard");
+        const editProfileSelect = document.getElementById("editProfileSelect");
+        const logoutLink = document.getElementById("logoutLink");
+        const addProfileMsg = document.getElementById("addProfileMsg");
+        const editProfileMsg = document.getElementById("editProfileMsg");
+        const activeUserEl = document.getElementById("activeUser");
+        const profileCountEl = document.getElementById("profileCount");
+        const kidsCountEl = document.getElementById("kidsCount");
+        const lastSwitchEl = document.getElementById("lastSwitch");
+
+        const newProfileName = document.getElementById("newProfileName");
+        const newProfileDob = document.getElementById("newProfileDob");
+        const newProfileLanguage = document.getElementById("newProfileLanguage");
+        const newProfileMaturity = document.getElementById("newProfileMaturity");
+        const newProfileSubtitleLanguage = document.getElementById("newProfileSubtitleLanguage");
+        const newProfilePhoto = document.getElementById("newProfilePhoto");
+        const newProfileAutoplay = document.getElementById("newProfileAutoplay");
+        const newProfileSubtitles = document.getElementById("newProfileSubtitles");
+
+        const editProfileName = document.getElementById("editProfileName");
+        const editProfileDob = document.getElementById("editProfileDob");
+        const editProfileLanguage = document.getElementById("editProfileLanguage");
+        const editProfileMaturity = document.getElementById("editProfileMaturity");
+        const editProfileSubtitleLanguage = document.getElementById("editProfileSubtitleLanguage");
+        const editProfilePhoto = document.getElementById("editProfilePhoto");
+        const editProfileAutoplay = document.getElementById("editProfileAutoplay");
+        const editProfileSubtitles = document.getElementById("editProfileSubtitles");
+
+        function setMsg(el, text, isError) {
+            el.textContent = text;
+            el.className = isError ? "field-msg error" : "field-msg success";
+        }
+
+        function getAgeFromDob(dob) {
+            if (!dob) return null;
+            const dobDate = new Date(dob);
+            const today = new Date();
+            let age = today.getFullYear() - dobDate.getFullYear();
+            const m = today.getMonth() - dobDate.getMonth();
+            if (m < 0 || (m === 0 && today.getDate() < dobDate.getDate())) age -= 1;
+            return age;
+        }
+
+        function formatLocalDate(value) {
+            if (!value) return "-";
+            const date = new Date(value);
+            if (!Number.isFinite(date.getTime())) return "-";
+            return date.toLocaleString();
+        }
+
+        function readSettings() {
+            try {
+                return JSON.parse(localStorage.getItem("flixoraSettings") || "{}");
+            } catch (err) {
+                return {};
+            }
+        }
+
+        function profileWithDefaults(profile = {}) {
+            return {
+                name: String(profile.name || "").trim() || "Profile",
+                dob: profile.dob || "",
+                photo: profile.photo || "",
+                language: profile.language || "English",
+                maturity: profile.maturity || "Teen",
+                subtitleLanguage: profile.subtitleLanguage || "English",
+                autoplayNext: profile.autoplayNext !== false,
+                subtitles: Boolean(profile.subtitles)
+            };
+        }
+
+        function readFileAsDataURL(file) {
+            return new Promise((resolve, reject) => {
+                if (!file) return resolve("");
+                const reader = new FileReader();
+                reader.onload = () => resolve(String(reader.result || ""));
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+            });
+        }
+
+        async function getCurrentAccount() {
+            return (await window.flixoraStore.readAccounts()).find((acc) => acc.email === userEmail) || null;
+        }
+
+        async function readProfiles() {
+            const raw = await window.flixoraStore.readProfiles(userEmail);
+            if (!raw.length) {
+                const account = await getCurrentAccount();
+                if (!account) return [];
+                return [profileWithDefaults({ name: account.name, dob: account.dob, photo: account.photo })];
+            }
+            if (typeof raw[0] === "string") return raw.map((name) => profileWithDefaults({ name }));
+            return raw.map((entry) => profileWithDefaults(entry));
+        }
+
+        async function saveProfiles(list) {
+            await window.flixoraStore.saveProfiles(userEmail, list.map((entry) => profileWithDefaults(entry)));
+        }
+
+        function updateKpis(profiles) {
+            profileCountEl.textContent = String(profiles.length);
+            kidsCountEl.textContent = String(profiles.filter((p) => p.maturity === "Kids").length);
+            const switchTime = localStorage.getItem("flixoraLastProfileSwitch");
+            lastSwitchEl.textContent = formatLocalDate(switchTime);
+        }
+
+        async function renderAccountCard() {
+            const account = await getCurrentAccount();
+            const settings = readSettings();
+            const plan = settings.plan || "Standard";
+            activeUserEl.textContent = account ? account.email : userEmail;
+            if (!account) {
+                accountCard.innerHTML = "<p class='notice'>Account details not found.</p>";
+                return;
+            }
+            const photo = account.photo || "https://via.placeholder.com/96x96?text=User";
+            accountCard.innerHTML = `
+                <div class="account-head">
+                    <img src="${photo}" class="avatar-large" alt="Account photo">
+                    <div>
+                        <h4>${account.name}</h4>
+                        <p class="notice">${account.email}</p>
+                        <p class="notice">DOB: ${account.dob || "Not set"}</p>
+                        <p class="notice">Plan: ${plan}</p>
+                    </div>
+                </div>`;
+        }
+
+        function profileMetaTags(profile) {
+            return [
+                `<span class="tag">${profile.language}</span>`,
+                `<span class="tag">${profile.maturity}</span>`,
+                `<span class="tag">${profile.subtitles ? "Subtitles On" : "Subtitles Off"}</span>`,
+                `<span class="tag">${profile.autoplayNext ? "Autoplay On" : "Autoplay Off"}</span>`
+            ].join("");
+        }
+
+        function fillEditForm(profile) {
+            if (!profile) return;
+            editProfileName.value = profile.name || "";
+            editProfileDob.value = profile.dob || "";
+            editProfileLanguage.value = profile.language || "English";
+            editProfileMaturity.value = profile.maturity || "Teen";
+            editProfileSubtitleLanguage.value = profile.subtitleLanguage || "English";
+            editProfileAutoplay.checked = profile.autoplayNext !== false;
+            editProfileSubtitles.checked = Boolean(profile.subtitles);
+            editProfilePhoto.value = "";
+        }
+
+        async function renderProfiles() {
+            profilesWrap.innerHTML = "";
+            editProfileSelect.innerHTML = "";
+            const profiles = await readProfiles();
+            updateKpis(profiles);
+
+            profiles.forEach((profile, index) => {
+                const card = document.createElement("article");
+                card.className = "profile-card";
+                const photo = profile.photo || "https://via.placeholder.com/64x64?text=P";
+                card.innerHTML = `
+                    <div class="profile-head">
+                        <img src="${photo}" class="avatar-small" alt="${profile.name}">
+                        <div>
+                            <h4>${profile.name}</h4>
+                            <p class="notice">DOB: ${profile.dob || "Not set"}</p>
+                        </div>
+                    </div>
+                    <div class="profile-meta">${profileMetaTags(profile)}</div>
+                    <div class="action-row">
+                        <button type="button" data-open="${index}">Watch as ${profile.name}</button>
+                    </div>`;
+                card.querySelector("button").addEventListener("click", () => {
+                    localStorage.setItem("flixoraProfile", profile.name);
+                    localStorage.setItem("flixoraProfileSettings", JSON.stringify({
+                        language: profile.language,
+                        maturity: profile.maturity,
+                        subtitleLanguage: profile.subtitleLanguage,
+                        subtitles: profile.subtitles,
+                        autoplayNext: profile.autoplayNext
+                    }));
+                    localStorage.setItem("flixoraLastProfileSwitch", new Date().toISOString());
+                    window.location.href = "index.html";
+                });
+                profilesWrap.appendChild(card);
+
+                const opt = document.createElement("option");
+                opt.value = String(index);
+                opt.textContent = profile.name;
+                editProfileSelect.appendChild(opt);
+            });
+
+            if (profiles.length) {
+                fillEditForm(profiles[0]);
+            }
+        }
+
+        editProfileSelect.addEventListener("change", async () => {
+            const profiles = await readProfiles();
+            fillEditForm(profiles[Number(editProfileSelect.value)]);
+        });
+
+        document.getElementById("addProfileBtn").addEventListener("click", async () => {
+            const name = newProfileName.value.trim();
+            const dob = newProfileDob.value;
+            const photoFile = newProfilePhoto.files[0];
+            if (!name) return setMsg(addProfileMsg, "Enter profile name.", true);
+            if (name.length > 24) return setMsg(addProfileMsg, "Profile name must be 24 characters or less.", true);
+            if (dob && getAgeFromDob(dob) < 7) return setMsg(addProfileMsg, "Profile age must be 7+.", true);
+
+            const profiles = await readProfiles();
+            if (profiles.some((profile) => profile.name.toLowerCase() === name.toLowerCase())) {
+                return setMsg(addProfileMsg, "Profile name already exists.", true);
+            }
+
+            let photo = "";
+            try {
+                photo = await readFileAsDataURL(photoFile);
+            } catch (err) {
+                return setMsg(addProfileMsg, "Could not read profile photo.", true);
+            }
+
+            profiles.push(profileWithDefaults({
+                name,
+                dob,
+                photo,
+                language: newProfileLanguage.value,
+                maturity: newProfileMaturity.value,
+                subtitleLanguage: newProfileSubtitleLanguage.value,
+                autoplayNext: newProfileAutoplay.checked,
+                subtitles: newProfileSubtitles.checked
+            }));
+            await saveProfiles(profiles);
+
+            newProfileName.value = "";
+            newProfileDob.value = "";
+            newProfileLanguage.value = "English";
+            newProfileMaturity.value = "Teen";
+            newProfileSubtitleLanguage.value = "English";
+            newProfilePhoto.value = "";
+            newProfileAutoplay.checked = true;
+            newProfileSubtitles.checked = false;
+            setMsg(addProfileMsg, "Profile added.", false);
+            renderProfiles();
+        });
+
+        document.getElementById("updateProfileBtn").addEventListener("click", async () => {
+            const index = Number(editProfileSelect.value);
+            const profiles = await readProfiles();
+            if (!profiles[index]) return setMsg(editProfileMsg, "Select a valid profile.", true);
+
+            const nextName = editProfileName.value.trim();
+            if (!nextName) return setMsg(editProfileMsg, "Profile name is required.", true);
+            if (nextName.length > 24) return setMsg(editProfileMsg, "Profile name must be 24 characters or less.", true);
+            if (profiles.some((profile, i) => i !== index && profile.name.toLowerCase() === nextName.toLowerCase())) {
+                return setMsg(editProfileMsg, "Another profile already uses this name.", true);
+            }
+            if (editProfileDob.value && getAgeFromDob(editProfileDob.value) < 7) {
+                return setMsg(editProfileMsg, "Profile age must be 7+.", true);
+            }
+
+            profiles[index].name = nextName;
+            profiles[index].dob = editProfileDob.value || "";
+            profiles[index].language = editProfileLanguage.value;
+            profiles[index].maturity = editProfileMaturity.value;
+            profiles[index].subtitleLanguage = editProfileSubtitleLanguage.value;
+            profiles[index].autoplayNext = editProfileAutoplay.checked;
+            profiles[index].subtitles = editProfileSubtitles.checked;
+
+            const photoFile = editProfilePhoto.files[0];
+            if (photoFile) {
+                try {
+                    profiles[index].photo = await readFileAsDataURL(photoFile);
+                } catch (err) {
+                    return setMsg(editProfileMsg, "Could not read profile photo.", true);
+                }
+            }
+
+            await saveProfiles(profiles);
+            setMsg(editProfileMsg, "Profile updated.", false);
+            renderProfiles();
+            editProfileSelect.value = String(index);
+            fillEditForm(profiles[index]);
+        });
+
+        document.getElementById("deleteProfileBtn").addEventListener("click", async () => {
+            const index = Number(editProfileSelect.value);
+            const profiles = await readProfiles();
+            if (!profiles[index]) return setMsg(editProfileMsg, "Select a valid profile.", true);
+            if (profiles.length <= 1) return setMsg(editProfileMsg, "At least one profile must remain.", true);
+
+            const ok = confirm(`Delete profile "${profiles[index].name}"?`);
+            if (!ok) return;
+            profiles.splice(index, 1);
+            await saveProfiles(profiles);
+            setMsg(editProfileMsg, "Profile deleted.", false);
+            renderProfiles();
+        });
+
+        logoutLink.addEventListener("click", () => {
+            localStorage.removeItem("flixoraUser");
+            localStorage.removeItem("flixoraUserName");
+            localStorage.removeItem("flixoraAccountId");
+        });
+
+        renderAccountCard();
+        renderProfiles();
+    </script>
+</body>
+</html>

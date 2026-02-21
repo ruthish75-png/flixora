@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Settings - Flixora</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="topbar">
+        <h1 class="logo">FLIXORA</h1>
+        <nav class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="profiles.html">Profiles</a>
+            <a href="settings.html" class="active">Settings</a>
+            <a href="support.html">Support</a>
+            <a href="login.html" id="logoutLink">Logout</a>
+        </nav>
+    </header>
+
+    <main class="panel-shell">
+        <section class="panel-hero">
+            <div>
+                <h2>Account and Streaming Settings</h2>
+                <p class="notice">Responsive controls inspired by major OTT platforms.</p>
+            </div>
+            <div class="chip-group">
+                <span class="chip">Netflix style</span>
+                <span class="chip">Prime style</span>
+                <span class="chip">Device controls</span>
+                <span class="chip">Privacy</span>
+            </div>
+        </section>
+
+        <section class="panel-kpis">
+            <article class="kpi-card"><p class="kpi-label">Current Plan</p><h3 class="kpi-value" id="kpiPlan">Standard</h3></article>
+            <article class="kpi-card"><p class="kpi-label">Streaming Quality</p><h3 class="kpi-value" id="kpiQuality">Auto</h3></article>
+            <article class="kpi-card"><p class="kpi-label">Region</p><h3 class="kpi-value" id="kpiRegion">IN</h3></article>
+            <article class="kpi-card"><p class="kpi-label">Max Devices</p><h3 class="kpi-value" id="kpiDevices">2</h3></article>
+        </section>
+
+        <div class="panel-grid">
+            <section class="section-card">
+                <h3>Account Profile</h3>
+                <div class="account-head">
+                    <img id="accountPreview" class="avatar-large" alt="Account photo" src="https://via.placeholder.com/96x96?text=User">
+                    <div>
+                        <p class="notice" id="accountEmail"></p>
+                        <p class="notice">Update account details and recovery info.</p>
+                    </div>
+                </div>
+                <div class="settings-grid">
+                    <input type="text" id="accountName" placeholder="Full name">
+                    <input type="date" id="accountDob">
+                    <input type="tel" id="accountPhone" placeholder="Phone number">
+                    <select id="accountCountry">
+                        <option value="IN">India</option>
+                        <option value="US">United States</option>
+                        <option value="GB">United Kingdom</option>
+                        <option value="CA">Canada</option>
+                        <option value="AU">Australia</option>
+                    </select>
+                    <input type="file" id="accountPhoto" accept="image/*">
+                </div>
+                <div class="action-row"><button id="saveAccountBtn" type="button">Save Account Profile</button></div>
+                <p id="accountMsg" class="field-msg"></p>
+
+                <div class="section-divider"></div>
+
+                <h3>Security</h3>
+                <div class="settings-grid">
+                    <input type="password" id="currentPassword" placeholder="Current password">
+                    <input type="password" id="newPassword" placeholder="New password">
+                    <input type="password" id="confirmNewPassword" placeholder="Confirm new password">
+                </div>
+                <div class="field-row" style="margin-top:0.7rem;">
+                    <div><h4>Two-factor authentication</h4><p>Require OTP for sensitive changes.</p></div>
+                    <label class="switch"><input type="checkbox" id="twoFactor">On</label>
+                </div>
+                <div class="field-row" style="margin-top:0.7rem;">
+                    <div><h4>Login alert emails</h4><p>Notify for new device login.</p></div>
+                    <label class="switch"><input type="checkbox" id="loginAlerts" checked>On</label>
+                </div>
+                <div class="action-row"><button id="changePasswordBtn" type="button">Update Password</button></div>
+                <p id="passwordMsg" class="field-msg"></p>
+            </section>
+
+            <section class="section-card">
+                <h3>Streaming Experience</h3>
+                <div class="settings-grid">
+                    <select id="prefLanguage">
+                        <option value="English">Preferred Audio: English</option>
+                        <option value="Hindi">Preferred Audio: Hindi</option>
+                        <option value="Tamil">Preferred Audio: Tamil</option>
+                        <option value="Telugu">Preferred Audio: Telugu</option>
+                        <option value="Spanish">Preferred Audio: Spanish</option>
+                        <option value="Korean">Preferred Audio: Korean</option>
+                        <option value="Japanese">Preferred Audio: Japanese</option>
+                        <option value="French">Preferred Audio: French</option>
+                        <option value="German">Preferred Audio: German</option>
+                    </select>
+                    <select id="prefCategory">
+                        <option value="Trending">Preferred Category: Trending</option>
+                        <option value="Action">Preferred Category: Action</option>
+                        <option value="Comedy">Preferred Category: Comedy</option>
+                        <option value="Romance">Preferred Category: Romance</option>
+                        <option value="Drama">Preferred Category: Drama</option>
+                        <option value="Web Series">Preferred Category: Web Series</option>
+                        <option value="Horror">Preferred Category: Horror</option>
+                        <option value="TV Serial">Preferred Category: TV Serial</option>
+                    </select>
+                    <select id="appLanguage">
+                        <option value="English">App Language: English</option>
+                        <option value="Hindi">App Language: Hindi</option>
+                        <option value="Tamil">App Language: Tamil</option>
+                        <option value="Telugu">App Language: Telugu</option>
+                    </select>
+                    <select id="subtitleLanguage">
+                        <option value="English">Subtitle: English</option>
+                        <option value="Hindi">Subtitle: Hindi</option>
+                        <option value="Tamil">Subtitle: Tamil</option>
+                        <option value="Telugu">Subtitle: Telugu</option>
+                        <option value="Spanish">Subtitle: Spanish</option>
+                    </select>
+                    <select id="subtitleSize">
+                        <option value="Small">Subtitle Size: Small</option>
+                        <option value="Medium" selected>Subtitle Size: Medium</option>
+                        <option value="Large">Subtitle Size: Large</option>
+                    </select>
+                    <select id="streamQuality">
+                        <option value="Auto">Streaming Quality: Auto</option>
+                        <option value="Low">Streaming Quality: Low</option>
+                        <option value="Medium">Streaming Quality: Medium</option>
+                        <option value="High">Streaming Quality: High</option>
+                        <option value="Ultra HD">Streaming Quality: Ultra HD</option>
+                    </select>
+                    <select id="audioQuality">
+                        <option value="Auto">Audio: Auto</option>
+                        <option value="Stereo">Audio: Stereo</option>
+                        <option value="5.1">Audio: 5.1</option>
+                        <option value="Dolby Atmos">Audio: Dolby Atmos</option>
+                    </select>
+                    <select id="plan">
+                        <option value="Mobile">Plan: Mobile</option>
+                        <option value="Basic">Plan: Basic</option>
+                        <option value="Standard" selected>Plan: Standard</option>
+                        <option value="Premium">Plan: Premium</option>
+                    </select>
+                    <input type="number" id="maxDevices" min="1" max="10" placeholder="Max concurrent devices">
+                </div>
+                <div class="field-row" style="margin-top:0.7rem;"><div><h4>Autoplay next episode</h4><p>Continue episodes automatically.</p></div><label class="switch"><input type="checkbox" id="autoplayNextEpisode" checked>On</label></div>
+                <div class="field-row" style="margin-top:0.7rem;"><div><h4>Autoplay previews</h4><p>Play title previews while browsing.</p></div><label class="switch"><input type="checkbox" id="autoplayPreviews">On</label></div>
+                <div class="field-row" style="margin-top:0.7rem;"><div><h4>Data saver mode</h4><p>Lower bitrate for mobile data saving.</p></div><label class="switch"><input type="checkbox" id="dataSaver">On</label></div>
+            </section>
+        </div>
+
+        <div class="panel-grid">
+            <section class="section-card">
+                <h3>OTT Integrations and APIs</h3>
+                <p class="notice">Connect real-world platforms for discovery and tracking.</p>
+
+                <div class="ott-grid">
+                    <label class="ott-option"><input type="checkbox" class="ott-check" value="Netflix">Netflix</label>
+                    <label class="ott-option"><input type="checkbox" class="ott-check" value="Prime Video">Prime Video</label>
+                    <label class="ott-option"><input type="checkbox" class="ott-check" value="Disney+ Hotstar">Disney+ Hotstar</label>
+                    <label class="ott-option"><input type="checkbox" class="ott-check" value="Apple TV+">Apple TV+</label>
+                    <label class="ott-option"><input type="checkbox" class="ott-check" value="Max">Max</label>
+                    <label class="ott-option"><input type="checkbox" class="ott-check" value="Hulu">Hulu</label>
+                    <label class="ott-option"><input type="checkbox" class="ott-check" value="JioHotstar">JioHotstar</label>
+                    <label class="ott-option"><input type="checkbox" class="ott-check" value="ZEE5">ZEE5</label>
+                    <label class="ott-option"><input type="checkbox" class="ott-check" value="SonyLIV">SonyLIV</label>
+                </div>
+                <div class="platform-preview" id="platformPreview"></div>
+
+                <div class="settings-grid" style="margin-top:0.7rem;">
+                    <input type="password" id="omdbApiKey" placeholder="OMDb API key">
+                    <input type="password" id="watchmodeApiKey" placeholder="Watchmode API key">
+                    <input type="text" id="watchRegion" maxlength="2" placeholder="Region (IN/US)">
+                    <select id="accountPrivacy">
+                        <option value="Private">Privacy: Private</option>
+                        <option value="Friends">Privacy: Friends</option>
+                        <option value="Public">Privacy: Public</option>
+                    </select>
+                    <select id="sessionTimeout">
+                        <option value="Never">Auto Sign-out: Never</option>
+                        <option value="7 days">Auto Sign-out: 7 days</option>
+                        <option value="30 days">Auto Sign-out: 30 days</option>
+                        <option value="90 days">Auto Sign-out: 90 days</option>
+                    </select>
+                </div>
+
+                <div class="field-row" style="margin-top:0.7rem;"><div><h4>Sync watchlist across apps</h4><p>Sync list where supported.</p></div><label class="switch"><input type="checkbox" id="watchlistSync">On</label></div>
+                <div class="field-row" style="margin-top:0.7rem;"><div><h4>Recommendations from history</h4><p>Use watch history for suggestions.</p></div><label class="switch"><input type="checkbox" id="recommendFromHistory" checked>On</label></div>
+                <div class="field-row" style="margin-top:0.7rem;"><div><h4>Kids mode</h4><p>Hide mature content.</p></div><label class="switch"><input type="checkbox" id="kidsMode">On</label></div>
+                <input type="password" id="kidsPin" maxlength="4" placeholder="Kids PIN (4 digits)" style="margin-top:0.7rem;">
+
+                <div class="action-row">
+                    <button id="savePlatformBtn" type="button">Save Platform Settings</button>
+                    <button id="syncBtn" type="button">Sync To Firebase</button>
+                    <a href="index.html"><button type="button">Back to Home</button></a>
+                </div>
+                <p id="apiMsg" class="field-msg"></p>
+            </section>
+
+            <section class="section-card">
+                <h3>Notifications, Downloads and Privacy</h3>
+                <div class="settings-grid">
+                    <select id="downloadQuality">
+                        <option value="Standard">Download Quality: Standard</option>
+                        <option value="High">Download Quality: High</option>
+                        <option value="Best">Download Quality: Best</option>
+                    </select>
+                    <select id="notificationFrequency">
+                        <option value="Instant">Notification Frequency: Instant</option>
+                        <option value="Daily">Notification Frequency: Daily</option>
+                        <option value="Weekly">Notification Frequency: Weekly</option>
+                    </select>
+                </div>
+
+                <div class="field-row" style="margin-top:0.7rem;"><div><h4>Download on Wi-Fi only</h4><p>Avoid mobile data usage.</p></div><label class="switch"><input type="checkbox" id="downloadWifiOnly" checked>On</label></div>
+                <div class="field-row" style="margin-top:0.7rem;"><div><h4>Smart downloads</h4><p>Auto manage episode downloads.</p></div><label class="switch"><input type="checkbox" id="smartDownloads">On</label></div>
+                <div class="field-row" style="margin-top:0.7rem;"><div><h4>Email alerts</h4><p>Title and billing alerts via email.</p></div><label class="switch"><input type="checkbox" id="emailAlerts" checked>On</label></div>
+                <div class="field-row" style="margin-top:0.7rem;"><div><h4>Push notifications</h4><p>Alerts on mobile and desktop.</p></div><label class="switch"><input type="checkbox" id="pushAlerts" checked>On</label></div>
+                <div class="field-row" style="margin-top:0.7rem;"><div><h4>WhatsApp alerts</h4><p>Optional reminder messages.</p></div><label class="switch"><input type="checkbox" id="whatsappAlerts">On</label></div>
+                <div class="field-row" style="margin-top:0.7rem;"><div><h4>Ad personalization</h4><p>Use behavior to personalize ads.</p></div><label class="switch"><input type="checkbox" id="adPersonalization">On</label></div>
+
+                <div class="section-divider"></div>
+                <h3>Delete Account</h3>
+                <p class="notice">Type DELETE and enter password to permanently remove account and profiles.</p>
+                <div class="settings-grid">
+                    <input type="text" id="deleteConfirmText" placeholder="Type DELETE">
+                    <input type="password" id="deleteAccountPassword" placeholder="Account password">
+                </div>
+                <div class="action-row"><button id="deleteAccountBtn" class="danger-btn" type="button">Delete Account</button></div>
+                <p id="deleteMsg" class="field-msg"></p>
+            </section>
+        </div>
+    </main>
+
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="firebase-store.js"></script>
+    <script>
+        const userEmail = localStorage.getItem("flixoraUser");
+        if (!userEmail) window.location.href = "login.html";
+
+        const accountMsg = document.getElementById("accountMsg");
+        const passwordMsg = document.getElementById("passwordMsg");
+        const apiMsg = document.getElementById("apiMsg");
+        const deleteMsg = document.getElementById("deleteMsg");
+        const platformPreview = document.getElementById("platformPreview");
+        const ottChecks = Array.from(document.querySelectorAll(".ott-check"));
+
+        function setMsg(el, text, isError) {
+            el.textContent = text;
+            el.className = isError ? "field-msg error" : "field-msg success";
+        }
+
+        function isStrongPassword(password) {
+            return password.length >= 8 && /[A-Za-z]/.test(password) && /\d/.test(password);
+        }
+
+        async function hashPassword(password) {
+            const bytes = new TextEncoder().encode(password);
+            const hash = await crypto.subtle.digest("SHA-256", bytes);
+            return Array.from(new Uint8Array(hash)).map((b) => b.toString(16).padStart(2, "0")).join("");
+        }
+
+        async function verifyPassword(account, plain) {
+            const hashed = await hashPassword(plain);
+            if (account.passwordHash) return account.passwordHash === hashed;
+            return account.password === plain;
+        }
+
+        function getAgeFromDob(dob) {
+            const dobDate = new Date(dob);
+            const today = new Date();
+            let age = today.getFullYear() - dobDate.getFullYear();
+            const m = today.getMonth() - dobDate.getMonth();
+            if (m < 0 || (m === 0 && today.getDate() < dobDate.getDate())) age -= 1;
+            return age;
+        }
+
+        function readFileAsDataURL(file) {
+            return new Promise((resolve, reject) => {
+                if (!file) return resolve("");
+                const reader = new FileReader();
+                reader.onload = () => resolve(String(reader.result || ""));
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+            });
+        }
+
+        async function getAccounts() {
+            return await window.flixoraStore.readAccounts();
+        }
+
+        function getSettings() {
+            try {
+                return JSON.parse(localStorage.getItem("flixoraSettings") || "{}");
+            } catch (err) {
+                return {};
+            }
+        }
+        function getConnectedOtt() {
+            return ottChecks.filter((check) => check.checked).map((check) => check.value);
+        }
+
+        function renderOttPreview() {
+            const connected = getConnectedOtt();
+            if (!connected.length) {
+                platformPreview.innerHTML = "<p class='notice'>No OTT platforms connected yet.</p>";
+                return;
+            }
+            platformPreview.innerHTML = `<div class="chip-group">${connected.map((name) => `<span class="chip">${name}</span>`).join("")}</div>`;
+        }
+
+        function updateKpis(settings) {
+            document.getElementById("kpiPlan").textContent = settings.plan || "Standard";
+            document.getElementById("kpiQuality").textContent = settings.streamQuality || "Auto";
+            document.getElementById("kpiRegion").textContent = settings.watchRegion || "IN";
+            document.getElementById("kpiDevices").textContent = String(settings.maxDevices || 2);
+        }
+
+        function applySavedSettings(saved) {
+            const fields = {
+                prefLanguage: saved.language || "English",
+                prefCategory: saved.category || "Trending",
+                appLanguage: saved.appLanguage || "English",
+                subtitleLanguage: saved.subtitleLanguage || "English",
+                subtitleSize: saved.subtitleSize || "Medium",
+                streamQuality: saved.streamQuality || "Auto",
+                audioQuality: saved.audioQuality || "Auto",
+                plan: saved.plan || "Standard",
+                maxDevices: saved.maxDevices || 2,
+                watchRegion: saved.watchRegion || "IN",
+                omdbApiKey: saved.omdbApiKey || "",
+                watchmodeApiKey: saved.watchmodeApiKey || "",
+                accountPrivacy: saved.accountPrivacy || "Private",
+                sessionTimeout: saved.sessionTimeout || "Never",
+                downloadQuality: saved.downloadQuality || "Standard",
+                notificationFrequency: saved.notificationFrequency || "Instant",
+                kidsPin: saved.kidsPin || ""
+            };
+
+            Object.keys(fields).forEach((id) => {
+                const el = document.getElementById(id);
+                if (el) el.value = fields[id];
+            });
+
+            document.getElementById("autoplayNextEpisode").checked = saved.autoplayNextEpisode !== false;
+            document.getElementById("autoplayPreviews").checked = Boolean(saved.autoplayPreviews);
+            document.getElementById("dataSaver").checked = Boolean(saved.dataSaver);
+            document.getElementById("watchlistSync").checked = Boolean(saved.watchlistSync);
+            document.getElementById("recommendFromHistory").checked = saved.recommendFromHistory !== false;
+            document.getElementById("kidsMode").checked = Boolean(saved.kidsMode);
+            document.getElementById("downloadWifiOnly").checked = saved.downloadWifiOnly !== false;
+            document.getElementById("smartDownloads").checked = Boolean(saved.smartDownloads);
+            document.getElementById("emailAlerts").checked = saved.emailAlerts !== false;
+            document.getElementById("pushAlerts").checked = saved.pushAlerts !== false;
+            document.getElementById("whatsappAlerts").checked = Boolean(saved.whatsappAlerts);
+            document.getElementById("adPersonalization").checked = Boolean(saved.adPersonalization);
+            document.getElementById("loginAlerts").checked = saved.loginAlerts !== false;
+            document.getElementById("twoFactor").checked = Boolean(saved.twoFactor);
+
+            const connected = Array.isArray(saved.connectedOTT) ? saved.connectedOTT : [];
+            ottChecks.forEach((check) => {
+                check.checked = connected.includes(check.value);
+            });
+            updateKpis(saved);
+            renderOttPreview();
+        }
+
+        function collectSettings() {
+            return {
+                language: document.getElementById("prefLanguage").value,
+                category: document.getElementById("prefCategory").value,
+                appLanguage: document.getElementById("appLanguage").value,
+                subtitleLanguage: document.getElementById("subtitleLanguage").value,
+                subtitleSize: document.getElementById("subtitleSize").value,
+                streamQuality: document.getElementById("streamQuality").value,
+                audioQuality: document.getElementById("audioQuality").value,
+                plan: document.getElementById("plan").value,
+                maxDevices: Number(document.getElementById("maxDevices").value || 2),
+                watchRegion: (document.getElementById("watchRegion").value.trim() || "IN").toUpperCase(),
+                omdbApiKey: document.getElementById("omdbApiKey").value.trim(),
+                watchmodeApiKey: document.getElementById("watchmodeApiKey").value.trim(),
+                accountPrivacy: document.getElementById("accountPrivacy").value,
+                sessionTimeout: document.getElementById("sessionTimeout").value,
+                downloadQuality: document.getElementById("downloadQuality").value,
+                notificationFrequency: document.getElementById("notificationFrequency").value,
+                autoplayNextEpisode: document.getElementById("autoplayNextEpisode").checked,
+                autoplayPreviews: document.getElementById("autoplayPreviews").checked,
+                dataSaver: document.getElementById("dataSaver").checked,
+                watchlistSync: document.getElementById("watchlistSync").checked,
+                recommendFromHistory: document.getElementById("recommendFromHistory").checked,
+                kidsMode: document.getElementById("kidsMode").checked,
+                kidsPin: document.getElementById("kidsPin").value.trim(),
+                downloadWifiOnly: document.getElementById("downloadWifiOnly").checked,
+                smartDownloads: document.getElementById("smartDownloads").checked,
+                emailAlerts: document.getElementById("emailAlerts").checked,
+                pushAlerts: document.getElementById("pushAlerts").checked,
+                whatsappAlerts: document.getElementById("whatsappAlerts").checked,
+                adPersonalization: document.getElementById("adPersonalization").checked,
+                loginAlerts: document.getElementById("loginAlerts").checked,
+                twoFactor: document.getElementById("twoFactor").checked,
+                connectedOTT: getConnectedOtt()
+            };
+        }
+
+        function savePlatformSettings() {
+            const settings = collectSettings();
+            if (!settings.watchRegion.match(/^[A-Z]{2}$/)) return setMsg(apiMsg, "Watch region must be 2 letters, e.g. IN or US.", true);
+            if (settings.maxDevices < 1 || settings.maxDevices > 10) return setMsg(apiMsg, "Max devices must be between 1 and 10.", true);
+            if (settings.kidsMode && !settings.kidsPin.match(/^\d{4}$/)) return setMsg(apiMsg, "Kids PIN must be exactly 4 digits.", true);
+
+            localStorage.setItem("flixoraSettings", JSON.stringify(settings));
+            updateKpis(settings);
+            renderOttPreview();
+            setMsg(apiMsg, "Platform settings saved.", false);
+        }
+
+        async function loadAccountIntoForm() {
+            const account = (await getAccounts()).find((acc) => acc.email === userEmail);
+            document.getElementById("accountEmail").textContent = account ? account.email : userEmail;
+            if (!account) return;
+            document.getElementById("accountName").value = account.name || "";
+            document.getElementById("accountDob").value = account.dob || "";
+            document.getElementById("accountPhone").value = account.phone || "";
+            document.getElementById("accountCountry").value = account.country || "IN";
+            document.getElementById("accountPreview").src = account.photo || "https://via.placeholder.com/96x96?text=User";
+        }
+        document.getElementById("savePlatformBtn").addEventListener("click", savePlatformSettings);
+        ottChecks.forEach((check) => check.addEventListener("change", renderOttPreview));
+
+        document.getElementById("syncBtn").addEventListener("click", async () => {
+            const ok = await window.flixoraStore.syncUserData(userEmail);
+            setMsg(apiMsg, ok ? "Firebase sync completed." : "Firebase not configured or sync failed.", !ok);
+        });
+
+        document.getElementById("saveAccountBtn").addEventListener("click", async () => {
+            const accounts = await getAccounts();
+            const idx = accounts.findIndex((a) => a.email === userEmail);
+            if (idx === -1) return setMsg(accountMsg, "Account not found.", true);
+
+            const name = document.getElementById("accountName").value.trim();
+            const dob = document.getElementById("accountDob").value;
+            const phone = document.getElementById("accountPhone").value.trim();
+            const country = document.getElementById("accountCountry").value;
+            const photoFile = document.getElementById("accountPhoto").files[0];
+            if (!name || !dob) return setMsg(accountMsg, "Name and DOB are required.", true);
+            if (getAgeFromDob(dob) < 13) return setMsg(accountMsg, "Minimum age is 13.", true);
+
+            accounts[idx].name = name;
+            accounts[idx].dob = dob;
+            accounts[idx].phone = phone;
+            accounts[idx].country = country;
+            if (photoFile) accounts[idx].photo = await readFileAsDataURL(photoFile);
+            await window.flixoraStore.saveAccounts(accounts);
+            localStorage.setItem("flixoraUserName", name);
+            await loadAccountIntoForm();
+            setMsg(accountMsg, "Account profile updated.", false);
+        });
+
+        document.getElementById("changePasswordBtn").addEventListener("click", async () => {
+            const currentPassword = document.getElementById("currentPassword").value.trim();
+            const newPassword = document.getElementById("newPassword").value.trim();
+            const confirmNewPassword = document.getElementById("confirmNewPassword").value.trim();
+
+            const accounts = await getAccounts();
+            const idx = accounts.findIndex((a) => a.email === userEmail);
+            if (idx === -1) return setMsg(passwordMsg, "Account not found.", true);
+            if (!currentPassword || !newPassword || !confirmNewPassword) return setMsg(passwordMsg, "Fill all password fields.", true);
+            if (!(await verifyPassword(accounts[idx], currentPassword))) return setMsg(passwordMsg, "Current password is incorrect.", true);
+            if (newPassword !== confirmNewPassword) return setMsg(passwordMsg, "New passwords do not match.", true);
+            if (!isStrongPassword(newPassword)) return setMsg(passwordMsg, "Use 8+ chars with letters and numbers.", true);
+            if (newPassword === currentPassword) return setMsg(passwordMsg, "New password must be different.", true);
+
+            accounts[idx].passwordHash = await hashPassword(newPassword);
+            delete accounts[idx].password;
+            await window.flixoraStore.saveAccounts(accounts);
+            document.getElementById("currentPassword").value = "";
+            document.getElementById("newPassword").value = "";
+            document.getElementById("confirmNewPassword").value = "";
+            setMsg(passwordMsg, "Password updated.", false);
+            savePlatformSettings();
+        });
+
+        document.getElementById("deleteAccountBtn").addEventListener("click", async () => {
+            const confirmText = document.getElementById("deleteConfirmText").value.trim();
+            const pass = document.getElementById("deleteAccountPassword").value.trim();
+            if (confirmText !== "DELETE") return setMsg(deleteMsg, "Type DELETE exactly.", true);
+
+            const accounts = await getAccounts();
+            const idx = accounts.findIndex((a) => a.email === userEmail);
+            if (idx === -1) return setMsg(deleteMsg, "Account not found.", true);
+            if (!(await verifyPassword(accounts[idx], pass))) return setMsg(deleteMsg, "Password is incorrect.", true);
+            if (!confirm("Delete account permanently? This cannot be undone.")) return;
+
+            accounts.splice(idx, 1);
+            await window.flixoraStore.saveAccounts(accounts);
+            await window.flixoraStore.saveProfiles(userEmail, []);
+
+            localStorage.removeItem("flixoraUser");
+            localStorage.removeItem("flixoraUserName");
+            localStorage.removeItem("flixoraAccountId");
+            window.location.href = "login.html";
+        });
+
+        document.getElementById("logoutLink").addEventListener("click", () => {
+            localStorage.removeItem("flixoraUser");
+            localStorage.removeItem("flixoraUserName");
+            localStorage.removeItem("flixoraAccountId");
+        });
+
+        const saved = getSettings();
+        applySavedSettings(saved);
+        loadAccountIntoForm();
+    </script>
+</body>
+</html>

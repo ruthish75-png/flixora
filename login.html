@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - Flixora</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="stylesheet" href="login.css">
+</head>
+<body class="auth-page">
+    <div class="auth-backdrop" aria-hidden="true">
+        <span class="auth-orb auth-orb-a"></span>
+        <span class="auth-orb auth-orb-b"></span>
+        <span class="auth-orb auth-orb-c"></span>
+    </div>
+
+    <header class="auth-header">
+        <h1 class="auth-logo">FLIXORA</h1>
+        <p class="auth-tagline">Watch anywhere. Cancel anytime.</p>
+    </header>
+
+    <main class="auth-main">
+        <section class="auth-card">
+            <h2 class="auth-title">Enter your info to sign in</h2>
+            <p class="auth-subtitle">Or get started with a new account.</p>
+
+            <div class="auth-tabs" role="tablist" aria-label="Authentication tabs">
+                <button class="auth-tab active" data-target="loginPanel" role="tab" aria-selected="true">Sign In</button>
+                <button class="auth-tab" data-target="createPanel" role="tab" aria-selected="false">Create Account</button>
+                <button class="auth-tab" data-target="resetPanel" role="tab" aria-selected="false">Forgot Password</button>
+            </div>
+
+            <section id="loginPanel" class="auth-panel active" role="tabpanel">
+                <div class="auth-grid auth-grid-single">
+                    <input type="email" id="loginEmail" placeholder="Email or mobile number">
+                    <input type="password" id="loginPassword" placeholder="Password">
+                </div>
+                <button id="loginBtn" class="primary-btn">Continue</button>
+                <p id="loginMsg" class="field-msg"></p>
+            </section>
+
+            <section id="createPanel" class="auth-panel" role="tabpanel">
+                <div class="auth-grid">
+                    <input type="text" id="createName" placeholder="Full name">
+                    <input type="email" id="createEmail" placeholder="Email">
+                    <input type="password" id="createPassword" placeholder="Password">
+                    <input type="password" id="createConfirmPassword" placeholder="Confirm password">
+                    <input type="date" id="createDob">
+                    <select id="securityQuestion">
+                        <option value="">Security question</option>
+                        <option value="pet">What is your first pet name?</option>
+                        <option value="city">Which city were you born in?</option>
+                        <option value="school">What is your first school name?</option>
+                    </select>
+                    <input type="text" id="securityAnswer" placeholder="Security answer">
+                    <input type="file" id="createPhoto" accept="image/*">
+                </div>
+                <button id="createBtn" class="primary-btn">Create Account</button>
+                <p id="createMsg" class="field-msg"></p>
+            </section>
+
+            <section id="resetPanel" class="auth-panel" role="tabpanel">
+                <div class="auth-grid">
+                    <input type="email" id="resetEmail" placeholder="Account email">
+                    <input type="text" id="resetAnswer" placeholder="Security answer">
+                    <input type="password" id="resetNewPassword" placeholder="New password">
+                    <input type="password" id="resetConfirmPassword" placeholder="Confirm new password">
+                </div>
+                <button id="resetBtn" class="primary-btn">Reset Password</button>
+                <p id="resetMsg" class="field-msg"></p>
+            </section>
+
+            <p id="firebaseMsg" class="auth-footnote"></p>
+        </section>
+    </main>
+
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+    <script src="firebase-config.js"></script>
+    <script src="firebase-store.js"></script>
+    <script>
+        const authLogo = document.querySelector(".auth-logo");
+        const createMsg = document.getElementById("createMsg");
+        const loginMsg = document.getElementById("loginMsg");
+        const resetMsg = document.getElementById("resetMsg");
+
+        function animateLogoLetters() {
+            if (!authLogo || authLogo.dataset.enhanced === "true") return;
+            const text = (authLogo.textContent || "").trim();
+            if (!text) return;
+            authLogo.dataset.enhanced = "true";
+            authLogo.setAttribute("aria-label", text);
+            authLogo.textContent = "";
+            [...text].forEach((ch, idx) => {
+                const span = document.createElement("span");
+                span.className = "logo-letter";
+                span.style.setProperty("--logo-i", String(idx));
+                span.textContent = ch;
+                authLogo.appendChild(span);
+            });
+        }
+
+        function setMsg(el, text, isError) {
+            el.textContent = text;
+            el.className = isError ? "field-msg error" : "field-msg success";
+        }
+
+        function setActivePanel(panelId) {
+            const tabs = document.querySelectorAll(".auth-tab");
+            const panels = document.querySelectorAll(".auth-panel");
+            tabs.forEach((tab) => {
+                const isActive = tab.getAttribute("data-target") === panelId;
+                tab.classList.toggle("active", isActive);
+                tab.setAttribute("aria-selected", isActive ? "true" : "false");
+            });
+            panels.forEach((panel) => panel.classList.toggle("active", panel.id === panelId));
+        }
+
+        document.querySelectorAll(".auth-tab").forEach((tab) => {
+            tab.addEventListener("click", () => setActivePanel(tab.getAttribute("data-target")));
+        });
+
+        function isStrongPassword(password) {
+            return password.length >= 8 && /[A-Za-z]/.test(password) && /\d/.test(password);
+        }
+
+        async function hashPassword(password) {
+            if (window.crypto && window.crypto.subtle) {
+                const bytes = new TextEncoder().encode(password);
+                const hash = await crypto.subtle.digest("SHA-256", bytes);
+                return Array.from(new Uint8Array(hash)).map((b) => b.toString(16).padStart(2, "0")).join("");
+            }
+            return btoa(unescape(encodeURIComponent(password)));
+        }
+
+        async function verifyPassword(account, plain) {
+            const hashed = await hashPassword(plain);
+            if (account.passwordHash) return account.passwordHash === hashed;
+            return account.password === plain;
+        }
+
+        function getAgeFromDob(dob) {
+            const dobDate = new Date(dob);
+            const today = new Date();
+            let age = today.getFullYear() - dobDate.getFullYear();
+            const m = today.getMonth() - dobDate.getMonth();
+            if (m < 0 || (m === 0 && today.getDate() < dobDate.getDate())) age -= 1;
+            return age;
+        }
+
+        function readFileAsDataURL(file) {
+            return new Promise((resolve, reject) => {
+                if (!file) return resolve("");
+                const reader = new FileReader();
+                reader.onload = () => resolve(String(reader.result || ""));
+                reader.onerror = reject;
+                reader.readAsDataURL(file);
+            });
+        }
+
+        async function createAccount() {
+            const name = document.getElementById("createName").value.trim();
+            const email = document.getElementById("createEmail").value.trim().toLowerCase();
+            const password = document.getElementById("createPassword").value.trim();
+            const confirmPassword = document.getElementById("createConfirmPassword").value.trim();
+            const dob = document.getElementById("createDob").value;
+            const question = document.getElementById("securityQuestion").value;
+            const answer = document.getElementById("securityAnswer").value.trim().toLowerCase();
+            const photoFile = document.getElementById("createPhoto").files[0];
+
+            if (!name || !email || !password || !confirmPassword || !dob || !question || !answer) {
+                return setMsg(createMsg, "Fill all account fields.", true);
+            }
+            if (password !== confirmPassword) {
+                return setMsg(createMsg, "Password and confirm password do not match.", true);
+            }
+            if (!isStrongPassword(password)) {
+                return setMsg(createMsg, "Use 8+ chars with letters and numbers.", true);
+            }
+            if (getAgeFromDob(dob) < 13) {
+                return setMsg(createMsg, "Minimum age is 13.", true);
+            }
+
+            const accounts = await window.flixoraStore.readAccounts();
+            if (accounts.find((acc) => acc.email === email)) {
+                return setMsg(createMsg, "Account already exists.", true);
+            }
+
+            let photo = "";
+            try {
+                photo = await readFileAsDataURL(photoFile);
+            } catch (err) {
+                return setMsg(createMsg, "Could not read profile photo.", true);
+            }
+
+            const account = {
+                id: `acc_${Date.now()}`,
+                name,
+                email,
+                passwordHash: await hashPassword(password),
+                dob,
+                photo,
+                securityQuestion: question,
+                securityAnswer: answer,
+                createdAt: new Date().toISOString()
+            };
+
+            accounts.push(account);
+            await window.flixoraStore.saveAccounts(accounts);
+            await window.flixoraStore.saveProfiles(email, [{ name, dob, photo }]);
+
+            localStorage.setItem("flixoraUser", email);
+            localStorage.setItem("flixoraUserName", name);
+            localStorage.setItem("flixoraAccountId", account.id);
+            setMsg(createMsg, "Account created. Redirecting...", false);
+            setTimeout(() => (window.location.href = "index.html"), 700);
+        }
+
+        async function loginAccount() {
+            const email = document.getElementById("loginEmail").value.trim().toLowerCase();
+            const password = document.getElementById("loginPassword").value.trim();
+            if (!email || !password) return setMsg(loginMsg, "Enter email and password.", true);
+
+            const accounts = await window.flixoraStore.readAccounts();
+            const index = accounts.findIndex((acc) => acc.email === email);
+            if (index < 0 || !(await verifyPassword(accounts[index], password))) {
+                return setMsg(loginMsg, "Invalid account credentials.", true);
+            }
+            if (!accounts[index].passwordHash) {
+                accounts[index].passwordHash = await hashPassword(password);
+                delete accounts[index].password;
+                await window.flixoraStore.saveAccounts(accounts);
+            }
+
+            localStorage.setItem("flixoraUser", accounts[index].email);
+            localStorage.setItem("flixoraUserName", accounts[index].name);
+            localStorage.setItem("flixoraAccountId", accounts[index].id);
+            setMsg(loginMsg, "Login successful. Redirecting...", false);
+            setTimeout(() => (window.location.href = "index.html"), 700);
+        }
+
+        async function resetPassword() {
+            const email = document.getElementById("resetEmail").value.trim().toLowerCase();
+            const answer = document.getElementById("resetAnswer").value.trim().toLowerCase();
+            const newPassword = document.getElementById("resetNewPassword").value.trim();
+            const confirm = document.getElementById("resetConfirmPassword").value.trim();
+
+            if (!email || !answer || !newPassword || !confirm) {
+                return setMsg(resetMsg, "Fill all reset fields.", true);
+            }
+            if (newPassword !== confirm) {
+                return setMsg(resetMsg, "New password and confirm do not match.", true);
+            }
+            if (!isStrongPassword(newPassword)) {
+                return setMsg(resetMsg, "New password is too weak.", true);
+            }
+
+            const accounts = await window.flixoraStore.readAccounts();
+            const idx = accounts.findIndex((acc) => acc.email === email);
+            if (idx === -1) return setMsg(resetMsg, "Account not found.", true);
+            if ((accounts[idx].securityAnswer || "") !== answer) {
+                return setMsg(resetMsg, "Security answer is incorrect.", true);
+            }
+
+            accounts[idx].passwordHash = await hashPassword(newPassword);
+            delete accounts[idx].password;
+            await window.flixoraStore.saveAccounts(accounts);
+            setMsg(resetMsg, "Password reset successful.", false);
+        }
+
+        document.getElementById("createBtn").addEventListener("click", createAccount);
+        document.getElementById("loginBtn").addEventListener("click", loginAccount);
+        document.getElementById("resetBtn").addEventListener("click", resetPassword);
+
+        document.getElementById("loginPassword").addEventListener("keydown", (e) => {
+            if (e.key === "Enter") loginAccount();
+        });
+
+        animateLogoLetters();
+
+        document.getElementById("firebaseMsg").textContent = window.flixoraStore.isFirebaseReady()
+            ? "Firebase sync enabled."
+            : "Firebase not configured: using local storage mode.";
+    </script>
+</body>
+</html>

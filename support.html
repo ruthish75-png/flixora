@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Support - Flixora</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="topbar">
+        <h1 class="logo">FLIXORA</h1>
+        <nav class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="profiles.html">Profiles</a>
+            <a href="settings.html">Settings</a>
+            <a href="support.html" class="active">Support</a>
+            <a href="login.html" id="logoutLink">Logout</a>
+        </nav>
+    </header>
+
+    <main class="panel-shell">
+        <section class="panel-hero">
+            <div>
+                <h2>Support Center</h2>
+                <p class="notice">Professional, real-world OTT support workflow with issue tracking and status updates.</p>
+            </div>
+            <div class="chip-group">
+                <span class="chip">Ticket Tracking</span>
+                <span class="chip">OTT Platform Issues</span>
+                <span class="chip">Billing and Device Help</span>
+                <span class="chip">Responsive UI</span>
+            </div>
+        </section>
+
+        <section class="panel-kpis">
+            <article class="kpi-card">
+                <p class="kpi-label">Open Tickets</p>
+                <h3 class="kpi-value" id="openCount">0</h3>
+            </article>
+            <article class="kpi-card">
+                <p class="kpi-label">Resolved Tickets</p>
+                <h3 class="kpi-value" id="resolvedCount">0</h3>
+            </article>
+            <article class="kpi-card">
+                <p class="kpi-label">High Priority</p>
+                <h3 class="kpi-value" id="highCount">0</h3>
+            </article>
+            <article class="kpi-card">
+                <p class="kpi-label">Last Ticket</p>
+                <h3 class="kpi-value" id="lastTicket">-</h3>
+            </article>
+        </section>
+
+        <div class="panel-grid">
+            <section class="section-card">
+                <h3>Create Support Ticket</h3>
+                <div class="settings-grid">
+                    <input type="text" id="subject" placeholder="Short subject">
+                    <select id="platform">
+                        <option value="Flixora">Platform: Flixora</option>
+                        <option value="Netflix">Platform: Netflix</option>
+                        <option value="Prime Video">Platform: Prime Video</option>
+                        <option value="Disney+ Hotstar">Platform: Disney+ Hotstar</option>
+                        <option value="Max">Platform: Max</option>
+                        <option value="Apple TV+">Platform: Apple TV+</option>
+                        <option value="Hulu">Platform: Hulu</option>
+                        <option value="JioHotstar">Platform: JioHotstar</option>
+                        <option value="ZEE5">Platform: ZEE5</option>
+                        <option value="SonyLIV">Platform: SonyLIV</option>
+                    </select>
+                    <select id="issueType">
+                        <option value="Playback">Issue Type: Playback</option>
+                        <option value="Account Login">Issue Type: Account Login</option>
+                        <option value="Billing">Issue Type: Billing</option>
+                        <option value="Subtitle/Audio">Issue Type: Subtitle/Audio</option>
+                        <option value="Streaming Quality">Issue Type: Streaming Quality</option>
+                        <option value="Profile/Parental Control">Issue Type: Profile/Parental Control</option>
+                        <option value="Device Compatibility">Issue Type: Device Compatibility</option>
+                        <option value="Download">Issue Type: Download</option>
+                    </select>
+                    <select id="priority">
+                        <option value="Low">Priority: Low</option>
+                        <option value="Medium" selected>Priority: Medium</option>
+                        <option value="High">Priority: High</option>
+                    </select>
+                    <select id="channel">
+                        <option value="Email">Preferred Channel: Email</option>
+                        <option value="Live Chat">Preferred Channel: Live Chat</option>
+                        <option value="Phone">Preferred Channel: Phone</option>
+                        <option value="WhatsApp">Preferred Channel: WhatsApp</option>
+                    </select>
+                    <select id="device">
+                        <option value="Web Browser">Device: Web Browser</option>
+                        <option value="Android">Device: Android</option>
+                        <option value="iOS">Device: iOS</option>
+                        <option value="Android TV">Device: Android TV</option>
+                        <option value="Fire TV">Device: Fire TV</option>
+                        <option value="Apple TV">Device: Apple TV</option>
+                        <option value="Roku">Device: Roku</option>
+                    </select>
+                    <input type="text" id="appVersion" placeholder="App version (optional)">
+                    <input type="text" id="screenshotUrl" placeholder="Screenshot URL (optional)">
+                </div>
+                <textarea id="message" rows="6" placeholder="Describe the issue in detail"></textarea>
+                <div class="action-row">
+                    <button id="submitTicket" type="button">Submit Ticket</button>
+                    <button id="resetForm" type="button">Reset</button>
+                </div>
+                <p id="ticketMsg" class="field-msg"></p>
+            </section>
+
+            <section class="section-card">
+                <h3>Contact and FAQ</h3>
+                <div class="field-row">
+                    <div>
+                        <h4>Email Support</h4>
+                        <p>support@flixora.help | Response in 4-24 hours.</p>
+                    </div>
+                </div>
+                <div class="field-row" style="margin-top:0.7rem;">
+                    <div>
+                        <h4>Live Chat Window</h4>
+                        <p>Available daily 9 AM - 11 PM local time.</p>
+                    </div>
+                </div>
+                <div class="field-row" style="margin-top:0.7rem;">
+                    <div>
+                        <h4>Billing Hotline</h4>
+                        <p>+1 (800) 555-0188 for payment and refund support.</p>
+                    </div>
+                </div>
+
+                <div class="section-divider"></div>
+                <div class="faq-list">
+                    <details>
+                        <summary>Why is my video buffering?</summary>
+                        <p>Check network speed, set quality to Auto/Medium, and restart app/device.</p>
+                    </details>
+                    <details>
+                        <summary>Subtitle or audio mismatch?</summary>
+                        <p>Use title language settings and confirm subtitle language in Settings.</p>
+                    </details>
+                    <details>
+                        <summary>Payment succeeded but access not updated?</summary>
+                        <p>Open a Billing ticket with transaction ID and registered email.</p>
+                    </details>
+                    <details>
+                        <summary>How can I secure my account?</summary>
+                        <p>Enable 2FA, change password, and turn on login alerts in Settings.</p>
+                    </details>
+                </div>
+            </section>
+        </div>
+
+        <section class="section-card">
+            <h3>Recent Tickets</h3>
+            <div class="ticket-toolbar">
+                <input type="text" id="ticketSearch" placeholder="Search by subject, platform, issue type">
+                <select id="statusFilter">
+                    <option value="All">All Status</option>
+                    <option value="Open">Open</option>
+                    <option value="Resolved">Resolved</option>
+                </select>
+                <select id="platformFilter">
+                    <option value="All">All Platforms</option>
+                    <option value="Flixora">Flixora</option>
+                    <option value="Netflix">Netflix</option>
+                    <option value="Prime Video">Prime Video</option>
+                    <option value="Disney+ Hotstar">Disney+ Hotstar</option>
+                    <option value="Max">Max</option>
+                    <option value="Apple TV+">Apple TV+</option>
+                    <option value="Hulu">Hulu</option>
+                    <option value="JioHotstar">JioHotstar</option>
+                    <option value="ZEE5">ZEE5</option>
+                    <option value="SonyLIV">SonyLIV</option>
+                </select>
+            </div>
+            <div id="ticketList" class="ticket-list"></div>
+        </section>
+    </main>
+
+    <script>
+        const userEmail = localStorage.getItem("flixoraUser");
+        if (!userEmail) window.location.href = "login.html";
+
+        const ticketMsg = document.getElementById("ticketMsg");
+        const ticketList = document.getElementById("ticketList");
+        const openCount = document.getElementById("openCount");
+        const resolvedCount = document.getElementById("resolvedCount");
+        const highCount = document.getElementById("highCount");
+        const lastTicket = document.getElementById("lastTicket");
+        const searchInput = document.getElementById("ticketSearch");
+        const statusFilter = document.getElementById("statusFilter");
+        const platformFilter = document.getElementById("platformFilter");
+
+        function ticketStorageKey() {
+            return `flixoraTickets:${userEmail.toLowerCase()}`;
+        }
+
+        function readTickets() {
+            try {
+                return JSON.parse(localStorage.getItem(ticketStorageKey()) || "[]");
+            } catch (err) {
+                return [];
+            }
+        }
+
+        function saveTickets(list) {
+            localStorage.setItem(ticketStorageKey(), JSON.stringify(list));
+        }
+
+        function formatDate(value) {
+            const d = new Date(value);
+            if (!Number.isFinite(d.getTime())) return "-";
+            return d.toLocaleString();
+        }
+
+        function normalize(value) {
+            return String(value || "").toLowerCase().trim();
+        }
+
+        function getSla(priority) {
+            if (priority === "High") return "4 hours";
+            if (priority === "Medium") return "12 hours";
+            return "24 hours";
+        }
+
+        function getPriorityBadge(priority) {
+            if (priority === "High") return "badge badge-high";
+            if (priority === "Medium") return "badge badge-medium";
+            return "badge badge-low";
+        }
+
+        function makeTicketId() {
+            const stamp = String(Date.now()).slice(-6);
+            const rand = Math.floor(Math.random() * 90 + 10);
+            return `FX-${stamp}${rand}`;
+        }
+
+        function updateKpis(list) {
+            const open = list.filter((ticket) => ticket.status === "Open").length;
+            const resolved = list.filter((ticket) => ticket.status === "Resolved").length;
+            const high = list.filter((ticket) => ticket.priority === "High" && ticket.status === "Open").length;
+            openCount.textContent = String(open);
+            resolvedCount.textContent = String(resolved);
+            highCount.textContent = String(high);
+            lastTicket.textContent = list.length ? list[list.length - 1].id : "-";
+        }
+
+        function renderTickets() {
+            const query = normalize(searchInput.value);
+            const status = statusFilter.value;
+            const platform = platformFilter.value;
+            const data = readTickets().sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+            updateKpis(data);
+
+            const filtered = data.filter((ticket) => {
+                const searchable = normalize(`${ticket.id} ${ticket.subject} ${ticket.platform} ${ticket.issueType} ${ticket.message}`);
+                const matchesQuery = !query || searchable.includes(query);
+                const matchesStatus = status === "All" || ticket.status === status;
+                const matchesPlatform = platform === "All" || ticket.platform === platform;
+                return matchesQuery && matchesStatus && matchesPlatform;
+            });
+
+            ticketList.innerHTML = "";
+            if (!filtered.length) {
+                ticketList.innerHTML = "<p class='notice'>No tickets found for selected filters.</p>";
+                return;
+            }
+
+            filtered.forEach((ticket) => {
+                const card = document.createElement("article");
+                card.className = "ticket-card";
+                const statusBadge = ticket.status === "Resolved" ? "badge badge-resolved" : "badge badge-open";
+                const previewMessage = ticket.message.length > 180 ? `${ticket.message.slice(0, 177)}...` : ticket.message;
+                card.innerHTML = `
+                    <div class="ticket-head">
+                        <h4>${ticket.id} - ${ticket.subject}</h4>
+                        <div class="chip-group">
+                            <span class="${statusBadge}">${ticket.status}</span>
+                            <span class="${getPriorityBadge(ticket.priority)}">${ticket.priority}</span>
+                        </div>
+                    </div>
+                    <p class="notice" style="margin-top:0.5rem;">${previewMessage}</p>
+                    <div class="profile-meta">
+                        <span class="tag">${ticket.platform}</span>
+                        <span class="tag">${ticket.issueType}</span>
+                        <span class="tag">${ticket.device}</span>
+                        <span class="tag">Channel: ${ticket.channel}</span>
+                        <span class="tag">SLA: ${ticket.sla}</span>
+                    </div>
+                    <p class="notice" style="margin-top:0.55rem;">Created: ${formatDate(ticket.createdAt)}</p>
+                    ${ticket.resolvedAt ? `<p class="notice">Resolved: ${formatDate(ticket.resolvedAt)}</p>` : ""}
+                    ${ticket.screenshotUrl ? `<p class="notice">Screenshot: <a href="${ticket.screenshotUrl}" target="_blank" rel="noopener noreferrer">${ticket.screenshotUrl}</a></p>` : ""}
+                    <div class="action-row">
+                        ${ticket.status === "Open"
+                            ? `<button type="button" data-action="resolve" data-id="${ticket.id}">Mark Resolved</button>`
+                            : `<button type="button" data-action="reopen" data-id="${ticket.id}">Reopen</button>`}
+                        <button type="button" class="danger-btn" data-action="delete" data-id="${ticket.id}">Delete</button>
+                    </div>`;
+                ticketList.appendChild(card);
+            });
+        }
+
+        function clearForm() {
+            document.getElementById("subject").value = "";
+            document.getElementById("message").value = "";
+            document.getElementById("appVersion").value = "";
+            document.getElementById("screenshotUrl").value = "";
+            document.getElementById("platform").value = "Flixora";
+            document.getElementById("issueType").value = "Playback";
+            document.getElementById("priority").value = "Medium";
+            document.getElementById("channel").value = "Email";
+            document.getElementById("device").value = "Web Browser";
+        }
+
+        document.getElementById("submitTicket").addEventListener("click", () => {
+            const subject = document.getElementById("subject").value.trim();
+            const message = document.getElementById("message").value.trim();
+            const platform = document.getElementById("platform").value;
+            const issueType = document.getElementById("issueType").value;
+            const priority = document.getElementById("priority").value;
+            const channel = document.getElementById("channel").value;
+            const device = document.getElementById("device").value;
+            const appVersion = document.getElementById("appVersion").value.trim();
+            const screenshotUrl = document.getElementById("screenshotUrl").value.trim();
+
+            if (!subject || !message) {
+                ticketMsg.textContent = "Subject and message are required.";
+                ticketMsg.className = "field-msg error";
+                return;
+            }
+            if (subject.length < 4) {
+                ticketMsg.textContent = "Subject should be at least 4 characters.";
+                ticketMsg.className = "field-msg error";
+                return;
+            }
+
+            const tickets = readTickets();
+            tickets.push({
+                id: makeTicketId(),
+                subject,
+                message,
+                platform,
+                issueType,
+                priority,
+                channel,
+                device,
+                appVersion,
+                screenshotUrl,
+                status: "Open",
+                sla: getSla(priority),
+                createdBy: userEmail,
+                createdAt: new Date().toISOString(),
+                resolvedAt: ""
+            });
+            saveTickets(tickets);
+            ticketMsg.textContent = "Ticket submitted successfully.";
+            ticketMsg.className = "field-msg success";
+            clearForm();
+            renderTickets();
+        });
+
+        document.getElementById("resetForm").addEventListener("click", clearForm);
+
+        ticketList.addEventListener("click", (event) => {
+            const target = event.target;
+            if (!(target instanceof HTMLElement)) return;
+            const action = target.getAttribute("data-action");
+            const id = target.getAttribute("data-id");
+            if (!action || !id) return;
+
+            const tickets = readTickets();
+            const index = tickets.findIndex((ticket) => ticket.id === id);
+            if (index < 0) return;
+
+            if (action === "resolve") {
+                tickets[index].status = "Resolved";
+                tickets[index].resolvedAt = new Date().toISOString();
+            }
+            if (action === "reopen") {
+                tickets[index].status = "Open";
+                tickets[index].resolvedAt = "";
+            }
+            if (action === "delete") {
+                const ok = confirm(`Delete ticket ${id}?`);
+                if (!ok) return;
+                tickets.splice(index, 1);
+            }
+            saveTickets(tickets);
+            renderTickets();
+        });
+
+        [searchInput, statusFilter, platformFilter].forEach((input) => {
+            input.addEventListener("input", renderTickets);
+            input.addEventListener("change", renderTickets);
+        });
+
+        document.getElementById("logoutLink").addEventListener("click", () => {
+            localStorage.removeItem("flixoraUser");
+            localStorage.removeItem("flixoraUserName");
+            localStorage.removeItem("flixoraAccountId");
+        });
+
+        renderTickets();
+    </script>
+</body>
+</html>

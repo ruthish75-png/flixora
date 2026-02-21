@@ -1,0 +1,140 @@
+body.watch-page-screen {
+    margin: 0;
+    background: #000;
+    color: #fff;
+    overflow-x: hidden;
+}
+
+.watch-main {
+    min-height: 100vh;
+    min-height: 100dvh;
+    padding: 0;
+    margin: 0;
+    position: relative;
+    overflow-x: hidden;
+    padding-left: max(0px, env(safe-area-inset-left));
+    padding-right: max(0px, env(safe-area-inset-right));
+    padding-top: max(0px, env(safe-area-inset-top));
+    padding-bottom: max(0px, env(safe-area-inset-bottom));
+}
+
+.watch-main::before {
+    content: "";
+    position: fixed;
+    left: 0;
+    right: 0;
+    top: max(0px, env(safe-area-inset-top));
+    height: 2px;
+    z-index: 120;
+    pointer-events: none;
+    background: linear-gradient(
+        90deg,
+        transparent 0%,
+        rgba(255, 106, 124, 0.18) 14%,
+        rgba(255, 106, 124, 0.9) 32%,
+        rgba(255, 170, 95, 0.86) 50%,
+        rgba(255, 106, 124, 0.9) 68%,
+        rgba(255, 106, 124, 0.18) 86%,
+        transparent 100%
+    );
+    background-size: 220% 100%;
+    animation: watchWaveStrip 8.3s linear infinite;
+}
+
+.watch-content {
+    min-height: 100vh;
+    min-height: 100dvh;
+    margin: 0;
+}
+
+.watch-empty {
+    width: min(720px, calc(100% - 2rem));
+    margin: 3rem auto;
+    border: 1px solid #2f2f2f;
+    border-radius: 14px;
+    padding: 1.3rem;
+    background: #0f0f0f;
+}
+
+.watch-empty h2 {
+    margin: 0 0 0.5rem;
+}
+
+.watch-empty p {
+    margin: 0;
+    color: #bdbdbd;
+}
+
+.watch-home-link {
+    margin-top: 1rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 140px;
+    padding: 0.6rem 0.9rem;
+    border-radius: 8px;
+    border: 1px solid #3a3a3a;
+    background: #1a1a1a;
+    color: #fff;
+    text-decoration: none;
+}
+
+@media (max-width: 760px) {
+    .watch-main {
+        padding: 0;
+    }
+
+    .watch-content .modal-hero {
+        height: clamp(210px, 40vh, 320px);
+        min-height: 210px;
+    }
+
+    .watch-empty {
+        width: calc(100% - 1rem);
+        margin: 1rem auto;
+        padding: 1rem;
+    }
+
+    .watch-home-link {
+        width: 100%;
+        min-width: 0;
+    }
+}
+
+@keyframes watchWaveStrip {
+    from {
+        background-position: 0% 50%;
+    }
+    to {
+        background-position: 220% 50%;
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .watch-main::before {
+        animation: none;
+    }
+}
+
+@media (max-height: 520px) and (orientation: landscape) {
+    .watch-content .modal-hero {
+        height: min(75vh, 420px);
+        min-height: 220px;
+    }
+}
+
+@media (max-width: 360px) {
+    .watch-empty {
+        width: calc(100% - 0.75rem);
+        margin: 0.75rem auto;
+        padding: 0.85rem;
+    }
+}
+
+@media (max-width: 420px) {
+    .watch-empty {
+        width: calc(100% - 0.7rem);
+        margin: 0.7rem auto;
+        padding: 0.82rem;
+    }
+}

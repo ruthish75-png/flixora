@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin - Flixora</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <header class="topbar">
+        <h1 class="logo">FLIXORA</h1>
+        <nav class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="profiles.html">Profiles</a>
+            <a href="settings.html">Settings</a>
+            <a href="admin.html" class="active">Admin</a>
+            <a href="login.html">Logout</a>
+        </nav>
+    </header>
+    <main class="panel-page">
+        <h2>Admin Content Panel</h2>
+        <p class="notice">Add custom titles to catalog. These appear instantly on Home.</p>
+        <div class="grid-2">
+            <input id="aTitle" placeholder="Title">
+            <select id="aType"><option>Movie</option><option>Web Series</option></select>
+            <input id="aRelease" type="date">
+            <input id="aRuntime" type="number" placeholder="Runtime mins">
+            <input id="aCategories" placeholder="Categories comma separated">
+            <input id="aLanguages" placeholder="Languages comma separated">
+            <select id="aMaturity"><option value="kids">kids</option><option value="teen">teen</option><option value="adult">adult</option></select>
+            <input id="aPoster" placeholder="Poster URL (optional)">
+        </div>
+        <input id="aDesc" placeholder="Description" style="margin-top:0.6rem;">
+        <button id="addTitleBtn" style="margin-top:0.6rem;">Add Title</button>
+        <p id="adminMsg" class="field-msg"></p>
+        <h3 style="margin-top:1rem;">Custom Titles</h3>
+        <div id="adminList"></div>
+    </main>
+    <script>
+        if (!localStorage.getItem("flixoraUser")) window.location.href = "login.html";
+        const listEl = document.getElementById("adminList");
+        const msg = document.getElementById("adminMsg");
+        function read() {
+            return JSON.parse(localStorage.getItem("flixoraAdminCatalog") || "[]");
+        }
+        function save(data) {
+            localStorage.setItem("flixoraAdminCatalog", JSON.stringify(data));
+        }
+        function setMsg(t, isErr) {
+            msg.textContent = t;
+            msg.className = isErr ? "field-msg error" : "field-msg success";
+        }
+        function render() {
+            const data = read();
+            listEl.innerHTML = data.length
+                ? data.map((x, i) => `<div class="profile-card"><h4>${x.title}</h4><p class="notice">${x.type} | ${x.releaseDate}</p><button data-del="${i}" class="danger-btn">Delete</button></div>`).join("")
+                : "<p class='notice'>No custom titles.</p>";
+            listEl.querySelectorAll("button[data-del]").forEach((btn) => {
+                btn.addEventListener("click", () => {
+                    const idx = Number(btn.getAttribute("data-del"));
+                    const data2 = read();
+                    data2.splice(idx, 1);
+                    save(data2);
+                    render();
+                });
+            });
+        }
+        document.getElementById("addTitleBtn").addEventListener("click", () => {
+            const title = document.getElementById("aTitle").value.trim();
+            const type = document.getElementById("aType").value;
+            const releaseDate = document.getElementById("aRelease").value;
+            const runtime = Number(document.getElementById("aRuntime").value || 90);
+            const categories = document.getElementById("aCategories").value.split(",").map((x) => x.trim()).filter(Boolean);
+            const languages = document.getElementById("aLanguages").value.split(",").map((x) => x.trim()).filter(Boolean);
+            const maturity = document.getElementById("aMaturity").value;
+            const poster = document.getElementById("aPoster").value.trim();
+            const description = document.getElementById("aDesc").value.trim();
+            if (!title || !releaseDate || !categories.length || !languages.length) return setMsg("Fill required fields.", true);
+            const streams = {};
+            languages.forEach((l) => streams[l] = "https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ForBiggerFun.mp4");
+            const item = { id: `c_${Date.now()}`, title, type, releaseDate, runtime, maturity, categories, poster, description, streams };
+            const data = read();
+            data.push(item);
+            save(data);
+            setMsg("Title added.", false);
+            render();
+        });
+        render();
+    </script>
+</body>
+</html>

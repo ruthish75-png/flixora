@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Watch - Flixora</title>
+    <link rel="icon" type="image/svg+xml" href="favicon.svg">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="watch.css">
+</head>
+<body class="watch-page-screen">
+    <main class="watch-main">
+        <article class="modal-content watch-content">
+            <div class="modal-hero">
+                <img id="modalImage" alt="Poster">
+                <div class="modal-hero-dim"></div>
+                <button class="close-btn" id="closeModalBtn" type="button" aria-label="Back to home">&times;</button>
+                <button id="heroPreviewBtn" class="hero-preview-btn" type="button" aria-label="Play trailer preview">
+                    <span class="hero-preview-icon">&#9654;</span>
+                </button>
+                <button id="heroTrailerBtn" class="hero-trailer-btn" type="button">Trailer</button>
+            </div>
+
+            <div class="modal-sheet">
+                <div class="modal-summary-layout">
+                    <div class="modal-main-copy">
+                        <p class="modal-brand"><span class="brand-glyph">FLIXORA</span><span>FILM</span></p>
+                        <h2 id="modalTitle"></h2>
+
+                        <div class="modal-meta-row">
+                            <span id="modalMatch" class="meta-match"></span>
+                            <span id="modalYear"></span>
+                            <span id="modalMaturity" class="meta-pill"></span>
+                            <span id="modalRuntime"></span>
+                            <span class="meta-pill">HD</span>
+                        </div>
+
+                        <p id="modalCategory" class="modal-category"></p>
+                        <p id="modalDescription" class="modal-description"></p>
+                        <p id="modalCast" class="modal-cast"></p>
+                    </div>
+
+                    <div class="modal-side-actions">
+                        <div id="modalLanguageChips" class="language-row"></div>
+
+                        <div class="modal-actions modal-primary-actions">
+                            <button id="playNowBtn" class="modal-btn-play" type="button">
+                                <span class="btn-symbol">&#9654;</span>
+                                <span class="play-label">Play</span>
+                            </button>
+                            <button id="downloadBtn" class="modal-btn-download" type="button">
+                                <span class="btn-symbol">&#8681;</span>
+                                <span>Download</span>
+                            </button>
+                        </div>
+
+                        <div class="modal-quick-actions">
+                            <button id="myListBtn" class="quick-action-btn" type="button">
+                                <span class="quick-icon">+</span>
+                                <span>My List</span>
+                            </button>
+                            <button id="quickRateBtn" class="quick-action-btn" type="button">
+                                <span class="quick-icon">&#128077;</span>
+                                <span>Rate</span>
+                            </button>
+                            <button id="quickShareBtn" class="quick-action-btn" type="button">
+                                <span class="quick-icon">&#10148;</span>
+                                <span>Share</span>
+                            </button>
+                            <button id="quickReportBtn" class="quick-action-btn" type="button">
+                                <span class="quick-icon">&#9873;</span>
+                                <span>Reports</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="modal-tabs" role="tablist" aria-label="Title details tabs">
+                    <button class="modal-tab-btn active" data-modal-tab="moreLike" type="button" role="tab" aria-selected="true">More Like This</button>
+                    <button class="modal-tab-btn" data-modal-tab="moreDetails" type="button" role="tab" aria-selected="false">More Details</button>
+                </div>
+                <div class="modal-tab-underline"><span id="modalTabAccent"></span></div>
+
+                <section id="modalTabMoreLike" class="modal-tab-panel active" role="tabpanel">
+                    <div id="modalMoreLikeGrid" class="modal-more-grid"></div>
+                </section>
+
+                <section id="modalTabMoreDetails" class="modal-tab-panel" role="tabpanel">
+                    <div class="modal-detail-grid">
+                        <div class="watch-panel detail-panel">
+                            <h3>Watch Settings</h3>
+                            <label for="playerLanguage">Audio Language</label>
+                            <select id="playerLanguage"></select>
+
+                            <div id="episodePanel" class="watch-panel nested-panel hidden">
+                                <h3>Episodes</h3>
+                                <div class="grid-2">
+                                    <select id="seasonSelect"></select>
+                                    <select id="episodeSelect"></select>
+                                </div>
+                                <button id="nextEpisodeBtn" style="margin-top:0.5rem;">Next Episode</button>
+                            </div>
+                        </div>
+
+                        <div class="watch-panel detail-panel">
+                            <h3>Title Links</h3>
+                            <p id="watchStatus" class="notice"></p>
+                            <div id="watchLinks" class="watch-links"></div>
+                        </div>
+                    </div>
+
+                    <video id="modalPlayer" controls playsinline></video>
+
+                    <div class="watch-panel detail-panel">
+                        <h3>Ratings & Reviews</h3>
+                        <div class="grid-2">
+                            <select id="ratingInput">
+                                <option value="">Rate</option>
+                                <option value="1">1</option>
+                                <option value="2">2</option>
+                                <option value="3">3</option>
+                                <option value="4">4</option>
+                                <option value="5">5</option>
+                            </select>
+                            <input id="reviewInput" type="text" placeholder="Write review">
+                        </div>
+                        <button id="submitReviewBtn" style="margin-top:0.5rem;">Submit Review</button>
+                        <div id="reviewList" class="review-list"></div>
+                    </div>
+                </section>
+            </div>
+        </article>
+
+        <section id="watchEmptyState" class="watch-empty hidden">
+            <h2>No title selected</h2>
+            <p>Select a movie from the home page to open this full watch screen.</p>
+            <a class="watch-home-link" href="index.html">Go to Home</a>
+        </section>
+    </main>
+
+    <script src="watch.js"></script>
+</body>
+</html>
